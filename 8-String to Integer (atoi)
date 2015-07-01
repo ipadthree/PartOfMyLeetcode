@@ -1,0 +1,63 @@
+//version 1.0
+
+class Solution {
+public:
+int myAtoi(string str) {
+    long long int result = 0;
+    // if(str == NULL) return NULL;
+    vector<long long int> num;
+    vector<char> temp;
+    int numstart = false;
+    bool first = false;
+    for(int i = 0; i < str.length(); i++){
+        if ((numstart == true) && !(str[i] >= 48 && str[i] <= 57)) {
+            break;
+        }
+        if(first == false && str[i] !=' ' ){
+            first = true;
+            if(str[i] != '-' && str[i]!='+' && !(str[i] >= 48 && str[i]<=57)){
+                return 0;
+            }
+        }
+        if ((str[i] >= 48 && str[i] <= 57) || str[i] == '-' || str[i]=='+') {
+            if((str[i] == '-' || str[i] == '+') && !(str[i+1] >= 48 && str[i+1]<=57)){
+                return 0;
+            }
+            if (str[i]>=48 && str[i]<=57) {
+                numstart = true;
+            }
+            temp.push_back(str[i]);
+        }
+    }
+    if ((temp.size() >= 2) && !(temp[1] >= 48 && temp[1] <= 57)) {
+        return 0;
+    }
+    for (int i = 0; i < temp.size(); i++) {
+        if(temp[i] >= 48 && temp[i] <= 57){
+            num.push_back(temp[i] - 48);
+        }
+    }
+    if(num.empty()){
+        return NULL;
+    }
+    if (temp.size()>=1 &&temp[0] =='-') {
+        for(int i = 0; i < num.size(); i++){
+            result = result * 10l - num[i]; //(long long)num[i]*(long long)pingfang(num.size() - i -1);
+            if (result < INT_MIN) {
+                return INT_MIN;
+            }
+        }
+
+    }else{
+        for(int i = 0; i < num.size(); i++){
+            result = result * 10l + num[i]; //(long long)num[i]*(long long)pingfang(num.size() - i -1);
+            if (result > INT_MAX) {
+                return INT_MAX;
+            }
+        }
+
+    }
+
+    return result;
+}
+};
