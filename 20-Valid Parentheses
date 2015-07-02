@@ -1,0 +1,26 @@
+//version 1.0
+
+
+class Solution {
+public:
+    bool compare(char a, char b){
+        return ((a == 40 && b == 41)||(a == 123 && b ==125) ||(a == 91 && b == 93));
+    }
+    bool isValid(string s) {
+        if(s.length() <2) return false;
+        stack<char> con;
+        for(int i = 0; i < s.length(); i++){
+            if (con.empty()) {
+                con.push(s[i]);
+                continue;
+            }
+            if(!compare(con.top(), s[i])){
+                con.push(s[i]);
+            }else{
+                con.pop();
+            }
+        }
+        if(con.empty()) return true;
+        return false;
+    }
+};
