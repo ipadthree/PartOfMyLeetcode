@@ -29,3 +29,15 @@ public:
         return res->next;
     }
 };
+
+
+//With reference 2.0
+
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        if(!head) return NULL;
+        head->next = removeElements(head->next, val);
+        return head->val == val ? head->next : head;
+    }
+};
