@@ -1,0 +1,54 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ 
+ //My really ugly version 1.0
+ //at first, I mistook the problem and think it just needs to shift the nodes in the back to the front, then I realized that what I 
+ //need to do is to rotate, but I don't want to change all of my code, so I fixed my earlier code with function cal(), which can 
+ //avoid looping through the linked list;
+ 
+ 
+ 
+class Solution {
+public:
+    int cal(ListNode* head){
+        ListNode *count = head;
+        int len = 0;
+        while(count){
+            count = count->next;
+            len++;
+        }
+        return len;
+    }
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(!head || k == 0) return head;
+        ListNode *index = head;
+        ListNode *opt = new ListNode(0);
+        opt->next = head;
+        ListNode *end = opt;
+        int n = k % cal(head);
+        if(n == 0) return head;
+        for(int i = 0; i < n; i++){
+            if(!index){
+                break;
+            }
+            index = index->next;
+            end = end->next;
+        }
+        while(index){
+            opt = opt->next;
+            index = index->next;
+            end = end->next;
+        }
+        ListNode *begin = opt->next;
+        if(opt->next == head) return head;
+        opt->next = NULL;
+        end->next = head;
+        return begin;
+    }
+};
