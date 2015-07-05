@@ -1,0 +1,43 @@
+/**
+ * Definition for singly-linked list with a random pointer.
+ * struct RandomListNode {
+ *     int label;
+ *     RandomListNode *next, *random;
+ *     RandomListNode(int x) : label(x), next(NULL), random(NULL) {}
+ * };
+ */
+ 
+ 
+ //After reading the hint from zhangyang using hashmap, my own version 1.0
+ 
+class Solution {
+public:
+    RandomListNode *copyRandomList(RandomListNode *head) {
+        if(!head) return NULL;
+        map<RandomListNode* ,RandomListNode*> hashmap;
+        RandomListNode *throu = head;
+        RandomListNode *newstart = new RandomListNode(0);
+        RandomListNode *res = newstart;
+        while(throu){
+            RandomListNode *newnode = new RandomListNode(0);
+            newstart->next = newnode;
+            newnode->label = throu->label;
+            hashmap.insert(map<RandomListNode*,RandomListNode*>::value_type(throu,newnode));
+            newstart = newstart->next;
+            throu = throu->next;
+        }
+        hashmap.insert(map<RandomListNode*,RandomListNode*>::value_type(NULL,NULL));
+        res = res->next;
+        //--------------------------------//
+        throu = head;
+        newstart = res;
+        map<RandomListNode* ,RandomListNode*>::iterator it;
+        while(throu){
+             it = hashmap.find(throu->random);
+             newstart->random = it->second;
+             newstart = newstart->next;
+             throu = throu->next;
+        }
+        return res;
+    }
+};
