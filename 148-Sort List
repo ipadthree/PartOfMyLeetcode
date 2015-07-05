@@ -1,0 +1,36 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ 
+ //With reference, using recursion. merge sort 
+ //version 1.0
+ 
+class Solution {
+public:
+    ListNode* merge(ListNode* h1, ListNode* h2){
+        if(!h1) return h2;
+        if(!h2) return h1;
+        if(h1->val < h2->val){
+            h1->next = merge(h1->next, h2);
+            return h1;
+        }
+        h2->next = merge(h1, h2->next);
+        return h2;
+    }
+    ListNode* sortList(ListNode* head) {
+        if(!head || !head->next) return head;
+        ListNode *index1 = head, *index2 = head, *mid = head;
+        while(index2 && index2->next){
+            mid = index1;
+            index1 = index1->next;
+            index2 = index2->next->next;
+        }
+        mid->next = NULL;
+        return merge(sortList(head),sortList(index1));
+    }
+};
