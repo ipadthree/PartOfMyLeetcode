@@ -1,0 +1,66 @@
+//This is what I wrote, but it can't pass "MDLXX", however, it gets the right answer --1570,on xcode.I don't know what is wrong.
+
+int romanToInt(string s) {
+    if(s.empty()) return 0;
+    string result = "";
+    int res = 0;
+    map<string, int> C;
+    C["C"] = 100; C["CC"] = 200; C["CCC"] = 300; C["CD"] = 400; C["D"] = 500; C["DC"] = 600; C["DCC"] = 700; C["DCCC"] = 800; C["CM"] = 900;
+    map<string, int> X;
+    X["X"] = 10; X["XX"] = 20; X["XXX"] =30; X["XL"] = 40; X["L"] = 50; X["LX"] = 60; X["LXX"] = 70; X["LXXX"] = 80; X["XC"] = 90;
+    map<string, int> I;
+    I["I"] = 1; I["II"] = 2; I["III"] = 3; I["IV"] = 4; I["V"] = 5; I["VI"] = 6; I["VII"] = 7; I["VIII"] = 8; I["IX"] = 9;
+    int i = 0;
+    while(s[i] == 'M'){
+        res += 1000;
+        i++;
+    }
+    while(s[i] == 'C' || s[i] == 'D' || s[i] == 'M'){
+        result += s[i];
+        i++;
+    }
+    res += C.find(result)->second;
+    result = "";
+    while(s[i] == 'X' || s[i] == 'L' || s[i] == 'C'){
+        result += s[i];
+        i++;
+    }
+    res += X.find(result)->second;
+    result = "";
+    while((s[i] == 'I' || s[i] == 'V' || s[i] == 'X') && i < s.length()){
+        result += s[i];
+        i++;
+    }
+    res += I.find(result)->second;
+    return res;
+}
+
+
+//This is the code I wrote after I saw other's idea.
+class Solution {
+public:
+    int numatchar(char c){
+        switch(c){
+            case 'I': return 1;
+            case 'V': return 5;
+            case 'X': return 10;
+            case 'L': return 50;
+            case 'C': return 100;
+            case 'D': return 500;
+            case 'M': return 1000;
+            default : return 0;
+        }
+    }
+    int romanToInt(string s) {
+        if(s.empty()) return 0;
+        int result = 0;
+        for(int i = 0; i < s.length(); i++){
+            if(i < s.length() - 1 && numatchar(s[i]) < numatchar(s[i+1])){
+                result -= numatchar(s[i]);
+            }else{
+                result += numatchar(s[i]);
+            }
+        }
+        return result;
+    }
+};
