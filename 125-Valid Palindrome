@@ -1,0 +1,15 @@
+//My version 1.5
+
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        int start = 0, end = s.length()-1;
+        while(start < end){
+            while(isalnum(s[start]) == 0 && start < end) start++;
+            while(isalnum(s[end]) == 0 && start <end) end--;
+            if(toupper(s[start]) != toupper(s[end])) return false;
+            start++; end--;
+        }
+        return true;
+    }
+};
