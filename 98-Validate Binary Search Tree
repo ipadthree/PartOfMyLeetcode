@@ -1,0 +1,49 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ 
+ //My Version 1.0 all by my own.
+ 
+class Solution {
+public:
+    bool biggestsmaller(TreeNode* root, TreeNode* realroot){
+        if(!root) return true;
+        if(!root->right){
+            if(root->val < realroot->val){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return biggestsmaller(root->right,realroot);
+    }
+    bool smallestbigger(TreeNode* root, TreeNode* realroot){
+        if(!root) return true;
+        if(!root->left){
+            if(root->val > realroot->val){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return smallestbigger(root->left,realroot);
+    }
+    bool isValidBST(TreeNode* root) {
+        if(!root) return true;
+        if(!root->left && !root->right) return 1;
+        bool lbst = isValidBST(root->left);
+        bool rbst = isValidBST(root->right);
+        if(lbst && rbst){
+            if(smallestbigger(root->right,root) && biggestsmaller(root->left,root)){
+                return true;
+            }
+        }
+        return false;
+    }
+};
