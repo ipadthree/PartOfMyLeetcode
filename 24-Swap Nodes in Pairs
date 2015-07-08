@@ -38,3 +38,15 @@ public:
         return res;
     }
 };
+
+
+//Other's answer.
+
+ListNode* swapPairs(ListNode* head) {
+        if (head == NULL || head->next == NULL) return head;
+        ListNode *grandChild = swapPairs(head->next->next);
+        ListNode *child = head->next;
+        child->next = head;
+        head->next = grandChild;
+        return child;
+    }
