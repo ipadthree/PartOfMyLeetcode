@@ -1,0 +1,24 @@
+
+//This problem 考察的是 when an entity is deleted in an array,数组的角标会变，
+//比如 1-2-3-4， i = 2, 这时候删除2，成为1-3-4，下一轮i变为3，这时候就指到了4这个node上，会跳过3node
+//so we need two pointers, one is one step previous than the current node, thus, when the current node is deleted,
+//i = j, so next time i increments one, and it will still point at the right node needs to be examined.
+
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int i = 0;
+        int j = -1;
+        while(i < nums.size()){
+            if(nums[i] == val){
+                nums.erase(nums.begin() + i);
+                i = j;
+                i++;
+            }else{
+                i++;
+                j++;
+            }
+        }
+        return nums.size();
+    }
+};
