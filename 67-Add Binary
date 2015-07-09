@@ -1,0 +1,37 @@
+//This is a rewritten of other's code
+/*while(indexa >= 0 || indexb >= 0){
+            int tempa = 0, tempb = 0;
+            if(indexa >= 0){
+                tempa = a[indexa--] - '0';
+            }
+            if(indexb >= 0){
+                tempb = b[indexb--] - '0';
+            }
+  I think this part is what I should learn, separate each string apart and don't 
+  think them as a combination*/
+
+
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        int indexa = a.size() - 1;
+        int indexb = b.size() - 1;
+        int sum = 0;
+        string result = "";
+        while(indexa >= 0 || indexb >= 0){
+            int tempa = 0, tempb = 0;
+            if(indexa >= 0){
+                tempa = a[indexa--] - '0';
+            }
+            if(indexb >= 0){
+                tempb = b[indexb--] - '0';
+            }
+            sum = tempa + tempb + sum;
+            // possible values of sum: 0 ~ 3
+            result = (sum % 2 == 0 ? '0' : '1') + result;
+            sum = sum / 2;
+        }
+        if(sum == 1) result = '1' + result;
+        return result;
+    }
+};
