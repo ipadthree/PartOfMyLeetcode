@@ -1,0 +1,25 @@
+/*This is I got the hint that I should use binary search to use I-think-kinda-silly way to check 
+  the possible one by one, and notice that int check = mid*mid; doesn't work, because when the input is like INT_MAX
+  mid*mid is gonna excced, so I alternate to using x/mid after reading other's code.
+  And pay attention to the boundary situation, in this problem--when the input is 0 or 1, min is always 0, so I dealed them apart.*/
+
+class Solution {
+public:
+    int mySqrt(int x) {
+        if(x < 0) return NULL;
+        if(x <= 1) return x;
+        int min = 0, max = x, mid = (max + min)/2;
+        //int check = mid*mid;
+        while(mid != x/mid){
+            if(mid > x/mid){
+                max = mid;
+            }
+            if(mid < x/mid){
+                min = mid;
+            }
+            mid = (max + min) /2;
+            if(min + 1 == max) return min;
+        }
+        return mid;
+    }
+};
