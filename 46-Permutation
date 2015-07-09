@@ -1,0 +1,51 @@
+//This problem is introduced on Programming Interviews Chapter 7: Recursion; Problem: Permutations of a string.
+
+//
+If you’re past the last position 
+  Print the string
+  Return
+Otherwise
+  For each letter in the input string
+    If it’s marked as used, skip to the next letter 
+    Else place the letter in the current position
+      Mark the letter as used
+      Permute remaining letters starting at current position + 1 
+      Mark the letter as unused
+
+// In my code, there is a vector<int> temp, it turns out that 在recursion中，里面的recursion函数完成返回后并不会把
+//操作过的数组或vector自动弹出，example：
+//temp = {1,2,3};
+//perm(); ----->里面temp加1，变成{1,2,3,4}
+//现在temp依旧是操作过后的{1，2，3，4}；
+//需要自己手动temp.pop_back();把temp复原。
+
+class Solution {
+public:
+    vector<vector<int>> result;
+    vector<int> temp;
+    map<int, int> ifused;
+    
+    void perm(vector<int>& nums, map<int,int> &ifused, vector<vector<int>> &result){
+        if(temp.size() == nums.size()){
+            result.push_back(temp);
+            return;
+        }
+        for(int i = 0; i < nums.size(); i++){
+            if(ifused.find(nums[i])->second == 1) continue;
+            temp.push_back(nums[i]);
+            ifused[nums[i]] = 1;
+            perm(nums,ifused,result);
+            ifused[nums[i]] = 0;
+            temp.pop_back();
+        }
+    }
+    
+    vector<vector<int>> permute(vector<int>& nums) {
+        for(int i = 0; i < nums.size(); i++){
+            ifused.insert(map<int, int>::value_type(nums[i],0));
+        }
+        
+        perm(nums,ifused,result);
+        return result;
+    }
+};
