@@ -1,0 +1,29 @@
+//Other's idea
+
+class Solution {
+public:
+    vector<string> anagrams(vector<string>& strs) {
+        vector<string> sortedstr = strs;
+        vector<string> result;
+        /*Get a copy of the original strs, and sort this copy, 
+        so the anagrams will be the same*/
+        unordered_map<string, vector<int>> map;
+        for(int i = 0; i < strs.size(); i++){
+            sort(sortedstr[i].begin(), sortedstr[i].end());
+            map[sortedstr[i]].push_back(i);
+            /*While sorting every string, record their existence
+            and position in the map*/
+        }
+        for(auto it = map.begin(); it != map.end(); it++){
+            /*Traverse the map and find the string which records at
+            least two positions*/
+            if(it->second.size() > 1){
+                for(int i = 0; i < it->second.size(); i++){
+                    /*Using the recorded ith location to locate the real string in strs*/
+                    result.push_back(strs[it->second[i]]);
+                }
+            }
+        }
+        return result;
+    }
+};
