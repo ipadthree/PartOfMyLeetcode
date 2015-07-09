@@ -1,0 +1,44 @@
+//I did this all by myself!!! Without any help or reference!!!^_^
+//Well, the answer is based on the solution to the question : permutation of string
+//That solution is specific for permutation, and this question is about 排列
+//However, I added a variant: loop to eliminate the situation where the outpuut 2,1 or 3,2 could happen.
+
+
+class Solution {
+public:
+    vector<vector<int>> result;
+    vector<int> temp;
+    int loop = 1;
+    void helper(map<int,int> &checkmap, int n, int k){
+        if(temp.size() == k){
+            result.push_back(temp);
+            return;
+        }
+        for(int i = loop; i <= n; i++){
+            while(checkmap[i] == 1) i++;
+            if (i > n) {
+                return;
+            }
+            /*If I don't compare i > n, when i exceeds n, I will add n+1 to the list.*/
+            checkmap[i] = 1;
+            temp.push_back(i);
+            loop  = i;
+            /*Only with this loop = i, can I assign the current i, which represents the start position
+              of the subset to the inner recursive function, so the helper function will just operate the 
+              digits that starts after the start position, which is loop.*/
+            helper(checkmap,n,k);
+            checkmap[i] = 0;
+            temp.pop_back();
+        }
+    }
+    vector<vector<int>> combine(int n, int k) {
+        map<int,int> checkmap;
+        for(int i = 1; i <= n; i++ ){
+            checkmap[i] = 0;
+        }
+        
+            helper(checkmap, n ,k);
+
+        return result;
+    }
+};
