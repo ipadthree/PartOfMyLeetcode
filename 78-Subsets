@@ -1,0 +1,29 @@
+/*This problem requires the understanding of the subset
+basically used dynamic idea, subset of ith is subset of (i-1)th append each element of subset of (i-1)th with S[i] in its tail.
+
+for example {1,2,3,4}
+
+subset of {1,2,3} is {1,2,3,12,13,23,123}
+
+subset of {1,2,3,4} is {1,2,3,12,13,23,123} + {1 4,2 4,3 4,12 4,13 4,23 4,123 4} + {4}
+
+*/
+
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> result(1,vector<int>());
+        sort(nums.begin(),nums.end());
+        /*Make sure it is acceding order*/
+        for(int i = 0; i < nums.size(); i++){
+            int n = result.size();
+            /*dynamic programming, for every element in the result, copy and paste back to the 
+              result, and add new element from nums the the back to form the new element in the result*/
+            for(int j = 0; j < n; j++){
+                result.push_back(result[j]);
+                result.back().push_back(nums[i]);
+            }
+        }
+        return result;
+    }
+};
