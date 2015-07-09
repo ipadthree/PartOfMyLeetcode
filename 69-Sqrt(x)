@@ -23,3 +23,19 @@ public:
         return mid;
     }
 };
+
+
+/*This is Newton's method:
+https://en.wikipedia.org/wiki/Methods_of_computing_square_roots*/
+
+class Solution {
+public:
+    int mySqrt(int x) {
+        double answer = x;
+        double de = 0.00001;
+        while(fabs(pow(answer,2) - x) > de){
+            answer = (answer + x/answer)/2;
+        }
+        return answer;
+    }
+};
