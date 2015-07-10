@@ -1,0 +1,40 @@
+/*At first, my idea was similar to this solution, however, I am afraid that my idea might be 
+  complicated, maybe there are better, faster, and elegant way to solve the question, like using DFS. 
+  After seeing others' code in discuss section, I realized there is no other way, even if using DFS, we still need
+  to use O(n*n) time to check every element in the board.
+  So I told myself: do not hold back by fancy solutions, just use what you come up with, maybe it trully is 
+  the suitable answer.*/
+
+
+class Solution {
+public:
+    int n;
+    int m;
+    bool exist(vector<vector<char>>& board, string word) {
+        m = board.size(); n = board[0].size();
+        for(int x = 0; x < m; x++){
+            for(int y = 0; y < n; y++){
+                if(isfound(board,word.c_str(),x,y))
+                /*traverse all the elements in the board*/
+                    return true;
+            }
+        }
+        return false;
+    }
+    bool isfound(vector<vector<char>>& board, const char *w, int x, int y){
+        if(x < 0 || y < 0 || x >= m || y >= n || *w != board[x][y] || board[x][y] == '0'/*character checked*/)
+            return false;
+        /*while string is traversed to the end, meaning all characters are matched and 
+          return true;*/
+        if(*(w + 1) == '\0') return true;
+        /*Setting board[x][y] is to indicate that these characters are already checked, so when 
+          the next check tracks back, it will know that this character is checkd.
+          example :: [aa], "aaa"*/
+        char t = board[x][y];
+        board[x][y] = '0';
+        if(isfound(board,w+1,x-1,y)||isfound(board,w+1,x+1,y)||isfound(board,w+1,x,y-1)||isfound(board,w+1,x,y+1))
+            return true;
+        board[x][y] = t;
+        return false;
+    }
+};
