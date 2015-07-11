@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool wordBreak(string s, unordered_set<string>& wordDict) {
+        if(s.empty() || wordDict.size() == 0 ) return false;
+        vector<bool> dp(s.size() + 1, false);
+        /*The bool vector is used to store the possible correct separations, may like:
+          [100001000001000001], this means there are three words in the dict, and the whole word can 
+          be separated into three words.*/
+        dp[0] = true;
+        /*if dp[0] was not initialized to true, then the following loop won't work*/
+        for(int i = 1; i <= s.size() ; i++){
+            for(int j = i - 1; j >= 0; j--){
+                if(dp[j]){
+                    string str = s.substr(j,i-j);
+                    /*because int the size+1 array dp[j] = true,so,in size length string, 
+                      j-1th character is checked, so in array substr starts at j*/
+                    if(wordDict.find(str) != wordDict.end()){
+                        dp[i] = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return dp[s.size()];
+    }
+};
