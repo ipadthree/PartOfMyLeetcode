@@ -1,0 +1,19 @@
+//This solution is inspired by My girlfriend;
+
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if(n == 0) return 0;
+        vector<int> checkval(n, 0);
+        checkval[0] = nums[0];
+        if(n == 1) return checkval[0];
+        checkval[1] = max(nums[0],nums[1]);
+        if(n == 2) return checkval[1];
+        for(int i = 2; i < nums.size(); i++){
+            checkval[i] = max(checkval[i-2] + nums[i],checkval[i-1]);
+        }
+        return checkval[n-1];
+    }
+};
