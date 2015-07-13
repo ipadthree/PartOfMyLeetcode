@@ -1,0 +1,23 @@
+//I did this all by myself and compiled only once to be accepted!!! wow yeah~~~~~~~~~
+//But there is a extra point for using space complexity O(n), though I am using O(n^2);
+
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        vector<vector<int>> cal = triangle;
+        if(cal.size() == 0) return 0;
+        if(cal.size() == 1) return cal[0][0];
+        cal[0][0] = triangle[0][0];
+        for(int i = 1; i < triangle.size(); i++){
+            for(int j = 0; j < triangle[i].size(); j++){
+                cal[i][j] = min(j-1 >= 0 ? cal[i-1][j-1] + triangle[i][j] : INT_MAX, 
+                                triangle[i-1].size() > j ? cal[i-1][j] + triangle[i][j] : INT_MAX);
+            }
+        }
+        int res = INT_MAX;
+        for(int i = 0; i < cal[cal.size()-1].size(); i++){
+            res = min(cal[cal.size()-1][i], res);
+        }
+        return res;
+    }
+};
