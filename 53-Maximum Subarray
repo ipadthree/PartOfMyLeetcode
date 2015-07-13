@@ -1,0 +1,98 @@
+//This problem is not so hard, however, I didn't figure out the subproblems, I think I overthought a little.
+
+
+//here is one's idea:
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        if(nums.size() == 0) return 0;
+        int answer = nums[0];
+        /*int answer is used to store the largest value ever*/
+        int sum = 0;
+        for(int i = 0; i< nums.size(); i++){
+            sum += nums[i];
+            answer = max(sum,answer);
+            sum = max(sum,0);// if sum is negative, we wouldn't consider it.
+        }
+        return answer;
+    }
+};
+
+
+
+
+
+
+
+
+
+Analysis of this problem: Apparently, this is a optimization problem, which can be usually solved by DP. So when it comes to DP, the first thing for us to figure out is the format of the sub problem(or the state of each sub problem). The format of the sub problem can be helpful when we are trying to come up with the recursive relation.
+
+At first, I think the sub problem should look like: maxSubArray(int A[], int i, int j), which means the maxSubArray for A[i: j]. In this way, our goal is to figure out what maxSubArray(A, 0, A.length - 1) is. However, if we define the format of the sub problem in this way, it's hard to find the connection from the sub problem to the original problem(at least for me). In other words, I can't find a way to divided the original problem into the sub problems and use the solutions of the sub problems to somehow create the solution of the original one.
+
+So I change the format of the sub problem into something like: maxSubArray(int A[], int i), which means the maxSubArray for A[0:i ] which must has A[i] as the end element. Note that now the sub problem's format is less flexible and less powerful than the previous one because there's a limitation that A[i] should be contained in that sequence and we have to keep track of each solution of the sub problem to update the global optimal value. However, now the connect between the sub problem & the original one becomes clearer:
+
+maxSubArray(A, i) = maxSubArray(A, i - 1) > 0 ? maxSubArray(A, i - 1) : 0 + A[i]; 
+And here's the code
+
+public int maxSubArray(int[] A) {
+        int n = A.length;
+        int[] dp = new int[n];//dp[i] means the maximum subarray ending with A[i];
+        dp[0] = A[0];
+        int max = dp[0];
+
+        for(int i = 1; i < n; i++){
+            dp[i] = A[i] + (dp[i - 1] > 0 ? dp[i - 1] : 0);
+            max = Math.max(max, dp[i]);
+        }
+
+        return max;
+} 
+
+
+
+
+//---------------------divide and conquer---------------------//
+
+
+
+Step1. Select the middle element of the array. So the maximum subarray may contain that middle element or not.
+
+Step 2.1 If the maximum subarray does not contain the middle element, then we can apply the same algorithm to the the subarray to the left of the middle element and the subarray to the right of the middle element.
+
+Step 2.2 If the maximum subarray does contain the middle element, then the result will be simply the maximum suffix subarray of the left subarray plus the maximum prefix subarray of the right subarray
+
+Step 3 return the maximum of those three answer.
+
+Here is a sample code for divide and conquer solution. Please try to understand the algorithm before look at the code
+
+class Solution {
+public:
+    int maxSubArray(int A[], int n) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        if(n==0) return 0;
+        return maxSubArrayHelperFunction(A,0,n-1);
+    }
+
+    int maxSubArrayHelperFunction(int A[], int left, int right) {
+        if(right == left) return A[left];
+        int middle = (left+right)/2;
+        int leftans = maxSubArrayHelperFunction(A, left, middle);
+        int rightans = maxSubArrayHelperFunction(A, middle+1, right);
+        int leftmax = A[middle];
+        int rightmax = A[middle+1];
+        int temp = 0;
+        for(int i=middle;i>=left;i--) {
+            temp += A[i];
+            if(temp > leftmax) leftmax = temp;
+        }
+        temp = 0;
+        for(int i=middle+1;i<=right;i++) {
+            temp += A[i];
+            if(temp > rightmax) rightmax = temp;
+        }
+        return max(max(leftans, rightans),leftmax+rightmax);
+    }
+};
