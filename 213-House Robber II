@@ -1,0 +1,54 @@
+//This is a rewritten of other's idea.
+
+class Solution {
+public:
+    int robhelper(vector<int>& nums, int start, int end){
+        //if(start > end) return 0;
+        //if(end-start == 0) return nums[0];
+        if(end-start == 1) return max(nums[start],nums[end]);
+        vector<int> money(end-start+1,nums[start]);
+        money[1] = max(nums[start+1],nums[start]);
+        for(int i = 2; i < end-start+1; i++){
+            money[i] = max(money[i-1], money[i-2] + nums[start+i]);
+        }
+        return money[end-start];
+    }
+    int rob(vector<int>& nums) {
+        if(nums.size() == 0) return 0;
+        if(nums.size() == 1) return nums[0];
+        if(nums.size() == 2) return max(nums[0],nums[1]);
+        return max(robhelper(nums,0,nums.size()-2), robhelper(nums,1,nums.size()-1));
+    }
+};
+
+
+
+//Following is other's idea;
+
+
+
+
+This problem is a little tricky at first glance. However, if you have finished the House Robber problem, this problem can simply be decomposed into two House Robber problems. Suppose there are n houses, since house 0 and n - 1 are now neighbors, we cannot rob them together and thus the solution is now the maximum of
+
+Rob houses 0 to n - 2;
+Rob houses 1 to n - 1.
+The code is as follows (some edge cases are handled explicitly).
+
+class Solution {
+public:
+    int robHelper(vector<int>& nums, int left, int right){
+        if (left == right) return nums[left];
+        vector<int> money(right - left + 1, 0);
+        money[0] = nums[left];
+        money[1] = max(nums[left], nums[left + 1]);
+        for (int i = 2; i <= right - left; i++)
+            money[i] = max(money[i - 1], money[i - 2] + nums[left + i]);
+        return money[money.size() - 1];
+    }
+    int rob(vector<int>& nums) {
+        if (nums.empty()) return 0;
+        int n = nums.size();
+        if (n == 1) return nums[0];
+        return max(robHelper(nums, 0, n - 2), robHelper(nums, 1, n - 1));
+    }  
+};
