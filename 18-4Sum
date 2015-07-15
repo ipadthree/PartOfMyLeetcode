@@ -1,0 +1,46 @@
+//My version 1.0
+//This problem seems to have only O(n^3) solution. And the idea is totally the same with 
+//3Sum
+
+
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        vector<vector<int>> result;
+        if(nums.size() < 4) return result;
+        sort(nums.begin(),nums.end());
+        for(int first = 0; first < nums.size() - 3; ){
+            int target_3 = target - nums[first];
+            /*When the elements in the vector is big and the sum of all of them four may exceed 
+              INT_MAX, substract one element to reduce the chance of extension*/
+            for(int fourth = nums.size() - 1; fourth > first + 2; ){
+                int second = first + 1;
+                int third = fourth - 1;
+                int target_2 = target_3 - nums[fourth];
+                while(second < third){
+                    if(nums[second]+nums[third] == target_2){
+                        result.push_back({nums[first],nums[second],nums[third],nums[fourth]});
+                        second++;
+                        while(nums[second] == nums[second-1]){
+                            second++;
+                        }
+                        continue;
+                    }
+                    if(nums[second]+nums[third] > target_2){
+                        third--;
+                        while(nums[third] == nums[third+1]) third--;
+                    }
+                    if(nums[second]+nums[third] < target_2){
+                        second++;
+                        while(nums[second] == nums[second-1]) second++;
+                    }
+                }
+                fourth--;
+                while(nums[fourth] == nums[fourth+1]) fourth--;
+            }
+            first++;
+            while(nums[first] == nums[first-1]) first++;
+        }
+        return result;
+    }
+};
