@@ -1,0 +1,28 @@
+//Just modify the solution from  combination Sum is okay
+
+class Solution {
+public:
+    void helper(vector<int>& candidates, vector<vector<int>> &result, vector<int> &newline,
+                int target, int begin){
+        /*Since All numbers (including target) will be positive integers, only when we find a valid combination
+          will there return */
+        if(target == 0){
+            result.push_back(newline);
+            return ;
+        }
+        if(begin == candidates.size() || target - candidates[begin] < 0) return;
+        newline.push_back(candidates[begin]);
+        helper(candidates,result,newline,target-candidates[begin],begin+1);   //Instead of recurse on the same element, go to the next.
+        newline.pop_back();
+        begin++;
+        while(candidates[begin-1] == candidates[begin]) begin++; // avoid the duplicates.
+        helper(candidates,result,newline,target,begin);
+    }
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<vector<int>> result;
+        vector<int> newline;
+        sort(candidates.begin(),candidates.end());
+        helper(candidates,result,newline,target,0);
+        return result;
+    }
+};
