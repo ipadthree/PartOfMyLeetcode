@@ -1,0 +1,27 @@
+//Borrowed other's idea.
+
+class Solution {
+public:
+    vector<int> grayCode(int n) {
+        vector<int> result(1,0);
+        for(int i = 0; i < n; i++){
+            int countdown = result.size();
+            while(countdown){
+                countdown--;
+                int newe = result[countdown];
+                result.push_back(newe/*result[countdown] if this is here, it changes the original element*/ += (1<<i));
+            }
+        }
+        return result;
+    }
+};
+
+From my intuition, the problem is like Hanoi. If you're able to solve n = 2 case, then you can kind of repeat it twice to achieve n = 3 case. Lets try to extend n = 2 case to n = 3 case first.
+
+When n = 2, the sequence is 00 -> 01 -> 11 -> 10 If you want to extend it to n=3 directly without modifying old part, there are only two possible sequence, and they are not hard to find out.
+
+000 -> 001 -> 011 -> 010 -> 110 -> 111 -> 101 -> 100
+
+000 -> 001 -> 011 -> 010 -> 110 -> 100 -> 101 -> 111
+
+So now, the problem is, which one should we choose. I would choose the first one for two reasons.
