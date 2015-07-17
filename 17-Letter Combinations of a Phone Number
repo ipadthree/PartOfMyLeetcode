@@ -1,0 +1,22 @@
+//Rewritten of other's idea.Not proud.
+
+
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        if(digits.empty()) return vector<string>(NULL);
+        vector<string> result(1);
+        string charmap[10] = {" ", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        for(int i = 0; i < digits.size(); i++){
+            string comb = charmap[digits[i] - '0'];
+            vector<string> temp;
+            for(int j = 0; j < comb.size(); j++){
+                for(int k = 0; k < result.size(); k++){
+                    temp.push_back(result[k] + comb[j]);
+                }
+            }
+            result = temp;
+        }
+        return result;
+    }
+};
