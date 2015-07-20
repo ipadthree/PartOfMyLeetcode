@@ -1,0 +1,60 @@
+//Other's idea.
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool helper(TreeNode* leftt, TreeNode* rightt){
+        if(!leftt && !rightt) return 1;
+        if(!leftt || !rightt) return 0;
+        if(leftt->val != rightt->val) return 0;
+        return helper(leftt->left, rightt->right) && helper(leftt->right,rightt->left);
+    }
+    bool isSymmetric(TreeNode* root) {
+        if(!root) return true;
+        return helper(root->left,root->right);
+    }
+};
+
+/*Iterative uses stack to achieve the same function of recursive*/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(!root) return true;
+        stack<TreeNode *> mystack;
+        mystack.push(root->left);
+        mystack.push(root->right);
+        TreeNode *lt, *rt;
+        while(!mystack.empty()){
+            rt = mystack.top();
+            mystack.pop();
+            lt = mystack.top();
+            mystack.pop();
+            if(!rt && !lt) continue;
+            if(!lt || !rt) return false;
+            if(lt->val != rt->val) return false;
+            mystack.push(lt->left);
+            mystack.push(rt->right);
+            mystack.push(lt->right);
+            mystack.push(rt->left);
+        }
+        return true;
+    }
+};
