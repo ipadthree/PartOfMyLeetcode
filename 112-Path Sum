@@ -1,0 +1,45 @@
+//On myself, without any help
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    
+bool hasPathSum(TreeNode* root, int sum) {
+    if(!root) return false;
+    map<TreeNode*, int> mymap;
+    queue<TreeNode*> myqueue;
+    mymap[root] = sum-root->val;
+    myqueue.push(root);
+    TreeNode* pro;
+    int newsum = sum;
+    while(!myqueue.empty()){
+        pro = myqueue.front();
+        myqueue.pop();
+        newsum = mymap.find(pro)->second;
+        if(!pro->left && !pro->right){
+            if(newsum == 0){
+                return true;
+            }
+        }
+            if(mymap.find(pro->left) == mymap.end() && pro->left){
+                mymap[pro->left] =newsum-pro->left->val;
+                myqueue.push(pro->left);
+            }
+            if(mymap.find(pro->right) == mymap.end() && pro->right){
+                mymap[pro->right] =newsum-pro->right->val;
+                myqueue.push(pro->right);
+            }
+        
+        
+    }
+    return false;
+}
+};
