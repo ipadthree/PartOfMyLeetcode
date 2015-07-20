@@ -1,0 +1,75 @@
+//This is my own code, it can't pass {-2,null,-3} -5 in leetcode.
+//but works well on my xcode.
+//I don't know why, maybe I can figure out later.
+
+
+class Solution {
+public:
+    map<TreeNode*, int> mymap;
+    vector<int> newres;
+    
+    void helper(TreeNode* root, int newsum, vector<vector<int>> &result){
+        newsum = newsum - root->val;
+        mymap[root] = newsum;
+        newres.push_back(root->val);
+        
+        if(!root->left && !root->right){
+            if(newsum == 0){
+                result.push_back(newres);
+            }
+        }
+        
+        if(mymap.find(root->left) == mymap.end() && root->left){
+            helper(root->left, newsum, result);
+            newres.pop_back();
+        }
+        
+        
+        if(mymap.find(root->left) == mymap.end() && root->left){
+            helper(root->left, newsum, result);
+            newres.pop_back();
+        }
+        
+        
+    }
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        
+        if(!root) return vector<vector<int>>(NULL);
+        vector<vector<int>> result;
+        helper(root,sum,result);
+        return result;
+    }
+};
+
+
+
+//This is an answer that leetcode accepted.
+
+vector<vector<int> > pathSum(TreeNode *root, int sum) {
+        vector<vector<int> > result;
+        vector<int> cur_path(0);
+        pathSumRec(root, sum, result, cur_path);
+        return result;
+    }
+
+    // pass the current path as a reference and remember to pop out the last added element
+    // this improves the performance by 5 times
+    void pathSumRec(TreeNode* root, int sum, vector<vector<int> >& result, vector<int>& cur_path) {
+        if (root == NULL) {
+            return;
+        }
+
+        if (root->val == sum && root->left == NULL && root->right == NULL) {
+            cur_path.push_back(root->val);
+            result.push_back(cur_path);
+            cur_path.pop_back();
+            return;
+        }
+
+        int sum_left = sum - root->val;
+        cur_path.push_back(root->val);
+        pathSumRec(root->left, sum_left, result, cur_path);
+        //cur_path.pop_back();
+        pathSumRec(root->right, sum_left, result, cur_path);
+        cur_path.pop_back();
+    }
