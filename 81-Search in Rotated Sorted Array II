@@ -1,0 +1,16 @@
+//Duplicates wouldn't affecte the result, because once I find out the element that is equal to target, I return true,
+//it doesn't matter whether I find another equation in other half of the array.
+
+class Solution {
+public:
+    bool binarysearch(int start, int end, vector<int> &nums,int target){
+        if(nums[start] == target) return true;
+        if(start < end){
+            return binarysearch(start, (start+end)/2, nums,target) || binarysearch((start+end)/2 + 1, end, nums,target);
+        }
+        return false;
+    }
+    bool search(vector<int>& nums, int target) {
+        return binarysearch(0, nums.size()/2-1, nums,target) || binarysearch(nums.size()/2, nums.size()-1, nums, target); 
+    }
+};
