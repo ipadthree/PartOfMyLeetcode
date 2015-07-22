@@ -1,0 +1,20 @@
+//Simple binary search..
+
+class Solution {
+public:
+    int binarysearch(int start, int end, vector<int> &nums,int target){
+        if(nums[end] == target) return end;
+        if(start < end){
+            int a = binarysearch(start, (start+end)/2, nums,target);  
+            int b = binarysearch((start+end)/2 + 1, end, nums,target);
+            return a == -1 ? b : a;
+        }
+        return -1;
+    }
+    int search(vector<int>& nums, int target) {
+        //sort(nums.begin(),nums.end());
+        int a = binarysearch(0, nums.size()/2-1, nums,target);  
+        int b = binarysearch(nums.size()/2, nums.size()-1, nums, target);
+        return a == -1 ? b : a; 
+    }
+};
