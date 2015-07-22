@@ -1,0 +1,25 @@
+/*Just literally rotate the array, prepend the last element to the array every time.*/
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        if(nums.size() == 0) return;
+        int n = nums.size();
+        k = k % n;
+        for(int i = 0; i < k; i++){
+            nums.insert(nums.begin(),nums[n-1]);
+            nums.erase(nums.begin() + n);
+        }
+    }
+};
+
+//Same idea, but more consice code
+
+ void rotate(vector<int>& nums, int k) 
+    {
+        for(int i=0;i<k;i++)
+        {
+            nums.insert(nums.begin(), nums.back());
+            nums.pop_back();
+        }
+    }
