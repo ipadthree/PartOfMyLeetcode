@@ -1,0 +1,12 @@
+//Rewrite other's idea.
+
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int destination = nums.size() - 1;
+        for(int i = nums.size()-2; i >= 0; i--){
+            destination = i+nums[i] >= destination ? i : destination;
+        }
+        return destination == 0;
+    }
+};
