@@ -1,0 +1,25 @@
+//Simple hash table inplementation, because it needs to check the hash table every time, it is not fast, 100ms.
+
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        map<int,int> mymap;
+        for(int i = 0; i < nums.size(); i++){
+            if(mymap.find(nums[i]) == mymap.end()){
+                mymap[nums[i]] = 1;
+            }else{
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+//Using "set" container, faster, 50ms.
+
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        return set<int>(nums.begin(), nums.end()).size() < nums.size();
+    }
+};
