@@ -1,0 +1,26 @@
+//other's idea
+
+
+/*
+ * We use "reached" to keep track of the maximum distance that has been reached
+ * by using the minimum steps "step", whereas "canreach" is the maximum distance
+ * that can be reached by using "step+1" steps. Thus,
+ * canreach = max(i+A[i]) where 0 <= i <= reached.
+ */
+
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int canreach = 0;
+        int reached = 0;
+        int step = 0;
+        for(int i = 0; i < nums.size(); i++){
+            if(i > reached){
+                reached = canreach;
+                step++;
+            }
+            canreach = max(canreach,i+nums[i]);
+        }
+        return step;
+    }
+};
