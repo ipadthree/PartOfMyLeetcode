@@ -1,0 +1,33 @@
+/*The same with the last problem in cc150 linked list chapter, think it as two runners running in a loop, the fast one's
+  starting point is ahead of the slower one, denote as distance D, and when they meet, they are D distance ahead of the slow one's
+  starting point.*/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        if(!head || !head->next) return NULL;
+        ListNode *slow = head, *fast = head;
+        while(fast){
+            fast = fast->next;
+            if(fast) fast = fast->next;
+            slow = slow->next;
+            if(fast == slow){
+                ListNode *junction = head;
+                while(junction != slow){
+                    junction = junction->next;
+                    slow = slow->next;
+                }
+                return junction;
+            }
+        }
+        return NULL;
+    }
+};
