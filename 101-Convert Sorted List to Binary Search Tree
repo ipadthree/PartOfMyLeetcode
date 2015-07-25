@@ -1,0 +1,46 @@
+//The idea is other's, but I rewrite without reference.
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* helper(ListNode* head, ListNode* tail){
+        if(!head || head == tail) return NULL; // Every time pay attention to the boundary condition.
+        if(head->next == tail) {
+            TreeNode *newnode = new TreeNode(head->val);
+            return newnode;
+        } 
+        ListNode* mid = head, *temp = head;
+        while(temp != tail){
+            temp = temp->next;
+            if(temp != tail){
+                temp = temp->next;
+                mid = mid->next;
+            }
+        }
+        TreeNode* node = new TreeNode(0);
+        node->left = helper(head,mid);
+        node->val = mid->val;
+        node->right = helper(mid->next,tail);
+        return node;
+    }
+    TreeNode* sortedListToBST(ListNode* head) {
+        return helper(head,NULL);
+    }
+};
