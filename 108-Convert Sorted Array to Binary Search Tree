@@ -1,0 +1,36 @@
+//copy of problem 109
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* helper(int start, int end, vector<int>& nums){
+        if(nums.size() == 0 || start == end)return NULL;
+        if(start+1 == end){
+            TreeNode *newnode = new TreeNode(nums[start]);
+            return newnode;
+        }
+        int mid = start, temp = start;
+        while(temp != end){
+            temp++;
+            if(temp != end){
+                temp++;
+                mid++;
+            }
+        }
+        TreeNode* node = new TreeNode(nums[mid]);
+        node->left = helper(start,mid,nums);
+        node->right = helper(mid+1,end,nums);
+        return node;
+    }
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return helper(0,nums.size(),nums);
+    }
+};
