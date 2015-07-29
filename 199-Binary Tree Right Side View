@@ -1,0 +1,33 @@
+// My version 1.0
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> res;
+    int height = 0;
+    int rightheight = 0;
+    void helper(TreeNode* root){
+        if(!root) return;
+        height++;
+        if(height > rightheight){
+            rightheight = height;
+            res.push_back(root->val);
+        }
+        helper(root->right);
+        helper(root->left);
+        height--;
+    }
+    vector<int> rightSideView(TreeNode* root) {
+        if(!root) return res;
+        helper(root);
+        return res;
+    }
+};
