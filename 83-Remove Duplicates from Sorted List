@@ -24,3 +24,26 @@ public:
         return head;
     }
 };
+
+
+//OTHER'S IDEA
+
+I noticed that the solutions posted here are too long and complicated. They use unnecessary variables and/or checks etc. 
+The solution can be much more concise. Here is my solution:
+
+class Solution {
+public:
+    ListNode *deleteDuplicates(ListNode *head) {
+        ListNode* cur = head;
+        while (cur) {
+            while (cur->next && cur->val == cur->next->val)
+                cur->next = cur->next->next;
+            cur = cur->next;
+        }
+        return head;
+    }
+};
+Note about freeing memory. We need to free memory when we delete a node. But don't use delete node; construct on an
+interview without discussing it with the interviewer. A list node can be allocated in many different ways and we can use delete 
+node; only if we are sure that the nodes were allocated with new TreeNode(...);.
+
